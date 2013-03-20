@@ -22,4 +22,5 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency     "mongo_mapper", ">= 0.9.0"
   spec.add_development_dependency "rspec",        "~> 2.11"
   spec.add_development_dependency "rake"
+  spec.add_development_dependency "timecop"
 end

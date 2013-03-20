@@ -10,4 +10,17 @@ module Softie
       scope :active, lambda { where(field: nil) }
     end
   end
+
+  def deleted!(options = {})
+    self.deleted_at = Time.now.utc
+  end
+
+  def restore!
+    self.deleted_at = nil
+    save
+  end
+
+  def deleted?
+    self.deleted_at != nil
+  end
 end
