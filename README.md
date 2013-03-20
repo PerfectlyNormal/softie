@@ -5,6 +5,12 @@
 Softie has troubles letting go.
 It is a plugin for [MongoMapper](http://mongomapper.com/), and lets records be soft-deleted easily.
 
+It contains the bare minimum that I use at the moment.
+Softie does not add a default scope, but it does add *a* scope (configurable).
+Softie does not override `#destroy`, `#delete` and other methods.
+
+The app this was extracted from stores which `User` deleted the record in `deleted_by`. This feature is disabled by default, but can easily be enabled, and the field name and class configured.
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -27,6 +33,17 @@ Either load it into all models, or individual models:
       include MongoMapper::Document
       plugin Softie
     end
+
+Then call `softie` to configure it
+
+    softie [options]
+
+The supported options are as follows:
+
+* `key`: Symbol. Defaults to `:deleted_at`
+* `scope`: Symbol. Defaults to `:active`. Set to a falsy value to disable.
+* `deleted_by_field`: Symbol. Defaults to `:deleted_by`
+* `deleted_by_class`: Class. Defaults to `nil`. Set to enable this functionality.
 
 ## Contributing
 
