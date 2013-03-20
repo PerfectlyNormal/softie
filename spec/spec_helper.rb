@@ -16,6 +16,35 @@ class DefaultArticle
   softie
 end
 
+class NonDefaultArticle
+  include MongoMapper::Document
+  plugin Softie
+
+  key :title, String
+  softie key: :was_deleted
+end
+
+class User
+  include MongoMapper::Document
+  key :name
+end
+
+class ArticleWithDeletedBy
+  include MongoMapper::Document
+  plugin Softie
+
+  key :title, String
+  softie deleted_by_class: ::User
+end
+
+class ArticleWithWasDeletedBy
+  include MongoMapper::Document
+  plugin Softie
+
+  key :title, String
+  softie deleted_by_class: ::User, deleted_by_key: :was_deleted_by
+end
+
 RSpec.configure do |config|
   config.before :suite do
     MongoMapper.database.connection.drop_database('softie-spec')

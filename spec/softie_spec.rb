@@ -66,8 +66,87 @@ describe Softie do
         @article.deleted_at.should == time
       end
     end
+
+    describe "with deleted_by functionality" do
+      it "should store the user" do
+        article = ArticleWithDeletedBy.new(title: "deleted_by is a User")
+        user    = User.new(name: "Dummy User")
+
+        article.deleted!(by: user)
+        article.deleted_by.should eq(user)
+      end
+    end
   end
 
   describe "#restore!" do
+    before :each do
+      @article = DefaultArticle.new(title: "Softie with Defaults")
+      @article.deleted!
+    end
+
+    it "should not be deleted any more" do
+      @article.restore!
+      @article.should_not be_deleted
+    end
+
+    describe "with deleted_by functionality" do
+      it "should clear the user" do
+        article = ArticleWithDeletedBy.new(title: "deleted_by is a User")
+        user    = User.new(name: "Dummy User")
+        article.deleted!(by: user)
+
+        article.restore!
+        article.deleted_by.should be_nil
+      end
+    end
+  end
+
+  describe "#deleted_by" do
+    describe "when enabled" do
+      it "should add a key called deleted_by" do
+        ArticleWithDeletedBy.new(
+          title: "deleted_by is a User"
+        ).keys.keys.should include("deleted_by")
+      end
+    end
+
+    describe "when not enabled" do
+      it "should not add the deleted_by key" do
+        @article = NonDefaultArticle.new(title: "Not tracking user")
+        @article.keys.keys.should_not include("deleted_by")
+      end
+    end
+
+    describe "enabled with a different key name" do
+      before :each do
+        @article = ArticleWithWasDeletedBy.new(title: "deleted_by key is was_deleted_by")
+      end
+
+      it "should add a key called was_deleted_by" do
+        @article.keys.keys.should include("was_deleted_by")
+      end
+
+      it "should not add the default key" do
+        @article.keys.keys.should_not include("deleted_by")
+      end
+    end
+  end
+
+  describe "with a different key name" do
+    before :each do
+      @article = NonDefaultArticle.new(title: "Different key names")
+    end
+
+    it "should add a key called was_deleted" do
+      @article.keys.keys.should include("was_deleted")
+    end
+
+    it "should not add a key called deleted_at" do
+      @article.keys.keys.should_not include("deleted_at")
+    end
+
+    it "should look at the right key in the scope" do
+      NonDefaultArticle.active.to_hash.should include(was_deleted: nil)
+    end
   end
 end
