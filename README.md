@@ -1,24 +1,32 @@
 # Softie
 
-TODO: Write a gem description
+[![Build Status](https://travis-ci.org/PerfectlyNormal/softie.png)](https://travis-ci.org/PerfectlyNormal/softie)
+
+Softie has troubles letting go.
+It is a plugin for [MongoMapper](http://mongomapper.com/), and lets records be soft-deleted easily.
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
-    gem 'Softie'
-
-And then execute:
-
-    $ bundle
+    gem 'softie'
 
 Or install it yourself as:
 
-    $ gem install Softie
+    $ gem install softie
 
 ## Usage
 
-TODO: Write usage instructions here
+Either load it into all models, or individual models:
+
+    # add to all models
+    MongoMapper::Document.plugin Softie
+
+    # add to a specific model
+    class Item
+      include MongoMapper::Document
+      plugin Softie
+    end
 
 ## Contributing
 
