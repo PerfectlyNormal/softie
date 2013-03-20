@@ -13,6 +13,7 @@ def article_class
   klass = Class.new do
     include MongoMapper::Document
     set_collection_name :articles
+    plugin Softie
 
     key :title, String
   end
