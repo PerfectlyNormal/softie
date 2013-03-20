@@ -9,18 +9,16 @@ require 'softie'
 
 MongoMapper.database = 'softie-spec'
 
-def article_class
-  klass = Class.new do
-    include MongoMapper::Document
-    set_collection_name :articles
-    plugin Softie
+class DefaultArticle
+  include MongoMapper::Document
+  plugin Softie
 
-    key :title, String
-  end
-
-  klass.collection.remove
-  klass
+  key :title, String
+  softie
 end
 
 RSpec.configure do |config|
+  config.before :suite do
+    MongoMapper.database.connection.drop_database('softie-spec')
+  end
 end

@@ -3,8 +3,11 @@ require "softie/version"
 module Softie
   extend ActiveSupport::Concern
 
-  included do
-    key :deleted_at, Time
-    scope :active, lambda { where(deleted_at: nil) }
+  module ClassMethods
+    def softie(field = :deleted_at, options = {})
+      key field, Time
+
+      scope :active, lambda { where(field: nil) }
+    end
   end
 end
