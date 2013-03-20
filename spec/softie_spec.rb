@@ -10,5 +10,9 @@ describe Softie do
       @article.keys.keys.should include("deleted_at")
     end
 
+    it "should add a .active scope" do
+      article_class.should respond_to(:active)
+    end
+
   end
 end
