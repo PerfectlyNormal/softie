@@ -33,6 +33,8 @@ module Softie
     if softie_options[:deleted_by_class]
       public_send("#{softie_options[:deleted_by_key]}=", options.delete(:by))
     end
+
+    save
   end
 
   def restore!
@@ -41,6 +43,8 @@ module Softie
     if softie_options[:deleted_by_class]
       public_send("#{softie_options[:deleted_by_key]}=", nil)
     end
+
+    save
   end
 
   def deleted?

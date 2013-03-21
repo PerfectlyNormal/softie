@@ -67,6 +67,11 @@ describe Softie do
       end
     end
 
+    it "saves the document" do
+      @article.should_receive(:save).and_return(true)
+      @article.deleted!
+    end
+
     describe "with deleted_by functionality" do
       it "should store the user" do
         article = ArticleWithDeletedBy.new(title: "deleted_by is a User")
@@ -87,6 +92,11 @@ describe Softie do
     it "should not be deleted any more" do
       @article.restore!
       @article.should_not be_deleted
+    end
+
+    it "saves the document" do
+      @article.should_receive(:save).and_return(true)
+      @article.restore!
     end
 
     describe "with deleted_by functionality" do
