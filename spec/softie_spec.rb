@@ -159,4 +159,10 @@ describe Softie do
       NonDefaultArticle.active.to_hash.should include(was_deleted: nil)
     end
   end
+
+  describe "with the scope disabled" do
+    it "should not generate the method" do
+      ArticleWithoutScope.should_not respond_to(:active)
+    end
+  end
 end

@@ -24,6 +24,14 @@ class NonDefaultArticle
   softie key: :was_deleted
 end
 
+class ArticleWithoutScope
+  include MongoMapper::Document
+  plugin Softie
+
+  key :title, String
+  softie scope: false
+end
+
 class User
   include MongoMapper::Document
   key :name
