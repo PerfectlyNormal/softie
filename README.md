@@ -21,7 +21,7 @@ Or install it yourself as:
 
     $ gem install softie
 
-## Usage
+## Configuration
 
 Either load it into all models, or individual models:
 
@@ -43,7 +43,13 @@ The supported options are as follows:
 * `key`: Symbol. Defaults to `:deleted_at`
 * `scope`: Symbol. Defaults to `:active`. Set to a falsy value to disable.
 * `deleted_by_field`: Symbol. Defaults to `:deleted_by`
-* `deleted_by_class`: Class. Defaults to `nil`. Set to enable this functionality.
+* `deleted_by_class`: Class. Defaults to `nil`. Set to a class to enable this functionality.
+
+## Usage
+
+Call `deleted!` on your document. This sets `deleted_at` to `Time.now.utc` and saves the document. If you are tracking who deleted it, pass it as `deleted!(by: current_user)`.
+
+To restore a document, call `restore!`.
 
 ## Contributing
 
