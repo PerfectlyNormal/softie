@@ -54,6 +54,35 @@ describe Softie do
     end
   end
 
+  describe "#deleted" do
+    before :each do
+      @article = DefaultArticle.new(title: "Softie with Defaults")
+    end
+
+    it "should store the current time" do
+      time = Time.utc(2013, 03, 20, 13, 37, 42)
+      Timecop.freeze(time) do
+        @article.deleted
+        @article.deleted_at.should == time
+      end
+    end
+
+    it "does not saves the document" do
+      @article.should_not_receive(:save)
+      @article.deleted
+    end
+
+    describe "with deleted_by functionality" do
+      it "should store the user" do
+        article = ArticleWithDeletedBy.new(title: "deleted_by is a User")
+        user    = User.new(name: "Dummy User")
+
+        article.deleted(by: user)
+        article.deleted_by.should eq(user)
+      end
+    end
+  end
+
   describe "#deleted!" do
     before :each do
       @article = DefaultArticle.new(title: "Softie with Defaults")
@@ -79,6 +108,34 @@ describe Softie do
 
         article.deleted!(by: user)
         article.deleted_by.should eq(user)
+      end
+    end
+  end
+
+  describe "#restore" do
+    before :each do
+      @article = DefaultArticle.new(title: "Softie with Defaults")
+      @article.deleted
+    end
+
+    it "should not be deleted any more" do
+      @article.restore
+      @article.should_not be_deleted
+    end
+
+    it "does not save the document" do
+      @article.should_not_receive(:save)
+      @article.restore
+    end
+
+    describe "with deleted_by functionality" do
+      it "should clear the user" do
+        article = ArticleWithDeletedBy.new(title: "deleted_by is a User")
+        user    = User.new(name: "Dummy User")
+        article.deleted!(by: user)
+
+        article.restore
+        article.deleted_by.should be_nil
       end
     end
   end

@@ -51,6 +51,8 @@ Call `deleted!` on your document. This sets `deleted_at` to `Time.now.utc` and s
 
 To restore a document, call `restore!`.
 
+If you want to handle saving manually, use `deleted` and `restore`.
+
 ## Contributing
 
 1. Fork it

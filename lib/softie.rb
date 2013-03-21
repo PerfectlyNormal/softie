@@ -27,23 +27,29 @@ module Softie
     end
   end
 
-  def deleted!(options = {})
+  def deleted(options = {})
     public_send("#{softie_options[:key]}=", Time.now.utc)
 
     if softie_options[:deleted_by_class]
       public_send("#{softie_options[:deleted_by_key]}=", options.delete(:by))
     end
+  end
 
+  def deleted!(options = {})
+    deleted(options)
     save
   end
 
-  def restore!
+  def restore
     public_send("#{softie_options[:key]}=", nil)
 
     if softie_options[:deleted_by_class]
       public_send("#{softie_options[:deleted_by_key]}=", nil)
     end
+  end
 
+  def restore!
+    restore
     save
   end
 
