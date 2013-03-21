@@ -28,7 +28,7 @@ module Softie
   end
 
   def deleted!(options = {})
-    public_send("#{self.softie_options[:key]}=", Time.now.utc)
+    public_send("#{softie_options[:key]}=", Time.now.utc)
 
     if softie_options[:deleted_by_class]
       public_send("#{softie_options[:deleted_by_key]}=", options.delete(:by))
