@@ -1,6 +1,7 @@
 # Softie
 
 [![Build Status](https://travis-ci.org/PerfectlyNormal/softie.png)](https://travis-ci.org/PerfectlyNormal/softie)
+[![Code Climate](https://codeclimate.com/github/PerfectlyNormal/softie.png)](https://codeclimate.com/github/PerfectlyNormal/softie)
 
 Softie has troubles letting go.
 It is a plugin for [MongoMapper](http://mongomapper.com/), and lets records be soft-deleted easily.
